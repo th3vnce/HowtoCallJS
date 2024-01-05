@@ -1,0 +1,30 @@
+﻿<!-- index.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Electron App</title>
+</head>
+<body>
+  <button id="myButton">Click me</button>
+  <div id="output1"></div>
+  <div id="output2"></div>
+  <div id="output3"></div>
+  <script>
+    // Use the exposed electronAPI to communicate with the main process
+    const { sendIpcMessage, receiveIpcMessage } = window.electronAPI;
+
+    document.getElementById('myButton').addEventListener('click', () => {
+      sendIpcMessage('button-clicked');
+    });
+
+    receiveIpcMessage('scripts-executed', (data) => {
+      document.getElementById('output1').innerText = `Time: ${data.output1}`;
+      document.getElementById('output2').innerText = `Date: ${data.output2}`;
+      document.getElementById('output3').innerText = `IP Address: ${data.output3}`;
+    });
+  </script>
+</body>
+</html>
